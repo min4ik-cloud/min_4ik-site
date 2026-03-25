@@ -1,52 +1,157 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <title>MIN_4IK</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <style>
-        body {
-            background: linear-gradient(135deg, #0f0f0f, #1a001f);
-            color: white;
-            text-align: center;
-            font-family: Arial;
-            margin: 0;
-            padding: 20px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MIN_4IK - SYSTEM HACK</title>
 
-        h1 {
-            margin-top: 40px;
-            font-size: 28px;
-        }
+<style>
+body {
+    margin: 0;
+    background: black;
+    color: #00ff00;
+    font-family: monospace;
+    overflow: hidden;
+}
 
-        .btn {
-            display: block;
-            margin: 15px auto;
-            padding: 15px;
-            width: 80%;
-            max-width: 300px;
-            background: #6a00ff;
-            color: white;
-            text-decoration: none;
-            border-radius: 12px;
-            font-size: 16px;
-            transition: 0.3s;
-        }
+/* Терминал */
+#terminal {
+    padding: 20px;
+    white-space: pre-wrap;
+    line-height: 1.4;
+}
 
-        .btn:hover {
-            background: #8a2eff;
-            transform: scale(1.05);
-        }
-    </style>
+/* Кнопки */
+.btn {
+    display: inline-block;
+    margin: 12px;
+    padding: 10px 20px;
+    border: 1px solid #00ff00;
+    border-radius: 6px;
+    color: #00ff00;
+    text-decoration: none;
+    transition: 0.3s;
+    font-family: monospace;
+}
+
+.btn:hover {
+    background: #00ff00;
+    color: black;
+    box-shadow: 0 0 15px #00ff00;
+}
+
+/* Мигающий курсор */
+.cursor {
+    display: inline-block;
+    width: 10px;
+    background-color: #00ff00;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50%, 100% { background-color: #00ff00; }
+    25%, 75% { background-color: black; }
+}
+
+/* Частицы фона (Matrix) */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+</style>
 </head>
 
 <body>
 
-<h1>🔥 MIN_4IK 🔥</h1>
+<canvas id="matrix"></canvas>
 
-<a class="btn" href="https://t.me/min_4ik"> Telegram</a>
-<a class="btn" href="https://youtube.com/@min4ik"> ️ YouTube</a>
-<a class="btn" href="https://instagram.com/min____4ik"> Instagram</a>
+<div id="terminal"></div>
+
+<div style="text-align:center; margin-top:20px;">
+    <a class="btn" href="https://t.me/min_4ik">Telegram</a>
+    <a class="btn" href="https://youtube.com/min4ik">YouTube</a>
+    <a class="btn" href="https://discord.com/users/424203787234967564">Discord</a>
+</div>
+
+<!-- Музыка -->
+<audio id="music" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// ===== MATRIX ЭФФЕКТ =====
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const letters = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const fontSize = 14;
+const columns = canvas.width / fontSize;
+const drops = Array.from({length: columns}, () => 1);
+
+function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#00ff00";
+    ctx.font = fontSize + "px monospace";
+
+    drops.forEach((y, i) => {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, y * fontSize);
+        drops[i] = y * fontSize > canvas.height && Math.random() > 0.975 ? 0 : y + 1;
+    });
+
+    requestAnimationFrame(drawMatrix);
+}
+
+drawMatrix();
+
+// ===== ТЕРМИНАЛ ТЕКСТ =====
+const terminal = document.getElementById("terminal");
+const lines = [
+    "[SYSTEM ONLINE]",
+    "[ACCESSING MIN_4IK NETWORK...]",
+    "[FIREWALL BYPASSED]",
+    "[LOADING USER DATA...]",
+    "[SUCCESS]",
+    "[WELCOME, OPERATOR]"
+];
+
+let i = 0;
+
+function typeLine(line, callback) {
+    let j = 0;
+    const interval = setInterval(() => {
+        terminal.innerHTML += line[j];
+        j++;
+        if (j >= line.length) {
+            clearInterval(interval);
+            terminal.innerHTML += "\n";
+            if (callback) callback();
+        }
+    }, 50);
+}
+
+function typeLines() {
+    if (i < lines.length) {
+        typeLine(lines[i], () => { i++; typeLines(); });
+    } else {
+        // Добавляем курсор в конце
+        terminal.innerHTML += '<span class="cursor"></span>';
+    }
+}
+
+typeLines();
+
+// ===== МУЗЫКА ПО КЛИКУ =====
+document.body.addEventListener("click", () => {
+    const music = document.getElementById("music");
+    music.play();
+});
+</script>
 
 </body>
 </html>
