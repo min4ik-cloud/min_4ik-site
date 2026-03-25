@@ -14,6 +14,23 @@ body {
     overflow: hidden;
 }
 
+/* Matrix фон */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+/* Контейнер контента */
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
 /* Терминал */
 #terminal {
     padding: 20px;
@@ -24,7 +41,7 @@ body {
 /* Кнопки */
 .btn {
     display: inline-block;
-    margin: 12px;
+    margin: 8px;
     padding: 10px 20px;
     border: 1px solid #00ff00;
     border-radius: 6px;
@@ -52,14 +69,6 @@ body {
     0%, 50%, 100% { background-color: #00ff00; }
     25%, 75% { background-color: black; }
 }
-
-/* Частицы фона (Matrix) */
-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
-}
 </style>
 </head>
 
@@ -67,15 +76,17 @@ canvas {
 
 <canvas id="matrix"></canvas>
 
-<div id="terminal"></div>
+<div class="container">
+    <div id="terminal"></div>
 
-<div style="text-align:center; margin-top:20px;">
-    <a class="btn" href="https://t.me/min_4ik">Telegram</a>
-    <a class="btn" href="https://www.youtube.com/@min4ik">YouTube</a>
-    <a class="btn" href="https://discord.com/users/424203787234967564">Discord</a>
-    <а class="btn" href="https://www.twitch.tv/min_4ik">Twitch</а>
-    <а class="btn" href="https://www.tiktok.com/@min_44ik">TikTok</а>
-    <а class="btn" href="https://vk.com/min_4ik">ВКонтакте</а>
+    <div style="margin-top:20px;">
+        <a class="btn" href="https://t.me/min_4ik">Telegram</a>
+        <a class="btn" href="https://www.youtube.com/@min4ik">YouTube</a>
+        <a class="btn" href="https://discord.com/users/424203787234967564">Discord</a>
+        <a class="btn" href="https://www.twitch.tv/min_4ik">Twitch</a>
+        <a class="btn" href="https://www.tiktok.com/@min_44ik">TikTok</a>
+        <a class="btn" href="https://vk.com/min_4ik">ВКонтакте</a>
+    </div>
 </div>
 
 <!-- Музыка -->
@@ -112,7 +123,7 @@ function drawMatrix() {
 
 drawMatrix();
 
-// ===== ТЕРМИНАЛ ТЕКСТ =====
+// ===== ТЕРМИНАЛ ПЕЧАТАЮЩИЙСЯ =====
 const terminal = document.getElementById("terminal");
 const lines = [
     "[SYSTEM ONLINE]",
@@ -142,17 +153,16 @@ function typeLines() {
     if (i < lines.length) {
         typeLine(lines[i], () => { i++; typeLines(); });
     } else {
-        // Добавляем курсор в конце
         terminal.innerHTML += '<span class="cursor"></span>';
     }
 }
 
 typeLines();
 
-// ===== МУЗЫКА ПО КЛИКУ =====
-document.body.addEventListener("autoplay loop", () => {
-    const music = document.getElementById("music");
-    music.play();
+// ===== МУЗЫКА =====
+const music = document.getElementById("music");
+document.body.addEventListener("click", () => {
+    if (music.paused) music.play();
 });
 </script>
 
